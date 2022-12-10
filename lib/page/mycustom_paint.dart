@@ -28,7 +28,7 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
             top: _topValue,
             left: _leftValue,
             child: GestureDetector(
-              //Drag
+              //drag
               onPanUpdate: ((details) => setState(() {
                     _topValue += details.delta.dy;
                     _leftValue += details.delta.dx;
@@ -38,16 +38,19 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                   Positioned(
                     //Zoom
                     child: GestureDetector(
+                      //The pointers in contact with the screen have established a focal point and initial scale of 1.0
                       onScaleStart: (details) {
                         setState(() {
                           _initScale = _scaleFactor;
                         });
                       },
+                      // The pointers in contact with the screen have indicated a new scale.
                       onScaleUpdate: (details) {
                         setState(() {
                           _initScale = _scaleFactor * details.scale;
                         });
                       },
+                      // The pointers are no longer in contact with the screen
                       onScaleEnd: (details) {
                         setState(() {
                           _scaleFactor = 1;
