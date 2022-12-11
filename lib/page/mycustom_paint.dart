@@ -150,13 +150,13 @@ class ShapePainter extends CustomPainter {
       ..strokeWidth = 1;
     //create path to form the Hexagon
     Path hexPath = Path();
-    hexPath.moveTo(size.width * 0.7000000, size.height * 0.1574803);
-    hexPath.lineTo(size.width * 0.7980000, size.height * 0.1574803);
-    hexPath.lineTo(size.width * 0.8980000, size.height * 0.2346457);
-    hexPath.lineTo(size.width * 0.7980000, size.height * 0.3149606);
-    hexPath.lineTo(size.width * 0.6980000, size.height * 0.3133858);
-    hexPath.lineTo(size.width * 0.5980000, size.height * 0.2346457);
-    hexPath.lineTo(size.width * 0.7000000, size.height * 0.1574803);
+    hexPath.moveTo(size.width * 0.7, size.height * 0.2);
+    hexPath.lineTo(size.width * 0.8, size.height * 0.2);
+    hexPath.lineTo(size.width * 0.85, size.height * 0.25);
+    hexPath.lineTo(size.width * 0.8, size.height * 0.3);
+    hexPath.lineTo(size.width * 0.7, size.height * 0.3);
+    hexPath.lineTo(size.width * 0.65, size.height * 0.25);
+    hexPath.lineTo(size.width * 0.7, size.height * 0.2);
     hexPath.close();
     hexPath.close();
     canvas.drawPath(hexPath, hex);
