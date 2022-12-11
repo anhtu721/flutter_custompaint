@@ -1,6 +1,6 @@
-# he_toa_do
+# Flutter Custompaint 
 
-A new Flutter project.
+A new Flutter project using Custompaint, Gesturedetector.
 
 ## Getting Started
 
