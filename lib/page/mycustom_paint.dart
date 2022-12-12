@@ -15,7 +15,7 @@ class MyCustomPaint extends StatefulWidget {
 class _MyCustomPaintState extends State<MyCustomPaint> {
   double _initScale = 1;
   double _scaleFactor = 1;
-  double _rotation = 1;
+  // double _rotation = 1;
 
   double _topValue = 0;
   double _leftValue = 0;
@@ -39,68 +39,78 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                   })),
               child: Stack(
                 children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: CustomPaint(
-                      painter: OxyCoordinate(),
-                      child: Container(),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: CustomPaint(
-                      painter: Hexagon(),
-                      child: Container(),
-                    ),
-                  ),
-                  Positioned(
-                    //Zoom
-                    child: GestureDetector(
-                      //The pointers in contact with the screen have established a focal point and initial scale of 1.0
-                      onScaleStart: (details) {
-                        setState(() {
-                          _initScale = _scaleFactor;
-                        });
-                      },
-                      // The pointers in contact with the screen have indicated a new scale.
-                      onScaleUpdate: (details) {
-                        setState(() {
-                          _initScale = _scaleFactor * details.scale;
-                          // _scaleFactor = _initScale * details.scale;
-                          // _rotation = details.rotation.abs() * (180 / pi);
-                          // print(details);
-                        });
-                      },
-                      // The pointers are no longer in contact with the screen
-                      onScaleEnd: (details) {
-                        setState(() {
-                          _scaleFactor = 1;
-                        });
-                      },
-                      child: Transform(
-                        alignment: FractionalOffset.center,
-                        transform: Matrix4.diagonal3(
-                            Vector3(_initScale, _initScale, _initScale)),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          child: Stack(
-                            children: <Widget>[
-                              CustomPaint(
-                                painter: ShapePainter(),
-                                child: Container(),
-                              ),
-                              CustomPaint(
-                                painter: PointPainter(),
-                                child: Container(),
-                              ),
-                            ],
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: MediaQuery.of(context).size.height,
+                  //   child: CustomPaint(
+                  //     painter: OxyCoordinate(),
+                  //     child: Container(),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: MediaQuery.of(context).size.height,
+                  //   child: CustomPaint(
+                  //     painter: Hexagon(),
+                  //     child: Container(),
+                  //   ),
+                  // ),
+                  Stack(
+                    children: <Widget>[
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: CustomPaint(
+                          painter: Hexagon(),
+                          child: Container(),
+                        ),
+                      ),
+                      GestureDetector(
+                        //The pointers in contact with the screen have established a focal point and initial scale of 1.0
+                        onScaleStart: (details) {
+                          setState(() {
+                            _initScale = _scaleFactor;
+                          });
+                        },
+                        // The pointers in contact with the screen have indicated a new scale.
+                        onScaleUpdate: (details) {
+                          setState(() {
+                            _initScale = _scaleFactor * details.scale;
+                          });
+                        },
+                        // The pointers are no longer in contact with the screen
+                        onScaleEnd: (details) {
+                          setState(() {
+                            _scaleFactor = 1;
+                          });
+                        },
+                        child: Transform(
+                          alignment: FractionalOffset.center,
+                          transform: Matrix4.diagonal3(
+                              Vector3(_initScale, _initScale, _initScale)),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            child: Stack(
+                              children: <Widget>[
+                                CustomPaint(
+                                  painter: ShapePainter(),
+                                  child: Container(),
+                                ),
+                                CustomPaint(
+                                  painter: PointPainter(),
+                                  child: Container(),
+                                ),
+                                CustomPaint(
+                                  painter: OxyCoordinate(),
+                                  child: Container(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
