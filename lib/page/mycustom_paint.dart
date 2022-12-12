@@ -121,13 +121,13 @@ class OxyCoordinate extends CustomPainter {
     // endpoint y-axis
     Offset bottomPoint = Offset(size.width / 2, 10000);
     //arrow
-    Offset aPoint = Offset(size.width, size.height / 2);
-    Offset bPoint = Offset(size.width * 0.99, size.height / 2 * 1.01);
-    Offset cPoint = Offset(size.width * 0.99, size.height / 2 * 0.99);
-    //arow
-    Offset dPoint = Offset(size.width / 2, 0);
-    Offset ePoint = Offset(size.width / 2 * 0.99, 10 * 0.99);
-    Offset fPoint = Offset(size.width / 2 * 1.01, 10 * 0.99);
+    // Offset aPoint = Offset(size.width, size.height / 2);
+    // Offset bPoint = Offset(size.width * 0.98, size.height / 2 * 1.02);
+    // Offset cPoint = Offset(size.width * 0.98, size.height / 2 * 0.98);
+    // //arow
+    // Offset dPoint = Offset(size.width / 2, size.height);
+    // Offset ePoint = Offset(size.width / 2 * 0.98, size.height * 0.98);
+    // Offset fPoint = Offset(size.width / 2 * 1.02, size.height * 0.98);
     // x-axis
     canvas.drawLine(leftPoint, rightPoint, paint);
     //y-axis
@@ -135,15 +135,25 @@ class OxyCoordinate extends CustomPainter {
 
     var paintArow = Paint()
       ..color = Colors.teal
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round;
-    canvas.drawLine(aPoint, bPoint, paintArow);
-    canvas.drawLine(cPoint, aPoint, paintArow);
-    canvas.drawLine(bPoint, cPoint, paintArow);
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
 
-    canvas.drawLine(dPoint, ePoint, paintArow);
-    canvas.drawLine(ePoint, fPoint, paintArow);
-    canvas.drawLine(fPoint, dPoint, paintArow);
+    Path pathArrow1 = Path();
+    pathArrow1.moveTo(size.width / 2, size.height);
+    pathArrow1.lineTo(size.width / 2 * 0.98, size.height * 0.98);
+    pathArrow1.lineTo(size.width / 2 * 1.02, size.height * 0.98);
+    pathArrow1.lineTo(size.width / 2, size.height);
+    pathArrow1.close();
+
+    canvas.drawPath(pathArrow1, paintArow);
+    Path pathArrow2 = Path();
+    pathArrow2.moveTo(size.width, size.height / 2);
+    pathArrow2.lineTo(size.width * 0.98, size.height / 2 * 1.02);
+    pathArrow2.lineTo(size.width * 0.98, size.height / 2 * 0.98);
+    pathArrow2.lineTo(size.width, size.height / 2);
+    pathArrow2.close();
+
+    canvas.drawPath(pathArrow2, paintArow);
   }
 
   @override
