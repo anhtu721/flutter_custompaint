@@ -34,7 +34,15 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                     _leftValue += details.delta.dx;
                   })),
               child: Stack(
-                children: [
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: CustomPaint(
+                      painter: Hexagon(),
+                      child: Container(),
+                    ),
+                  ),
                   Positioned(
                     //Zoom
                     child: GestureDetector(
@@ -48,14 +56,15 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                       onScaleUpdate: (details) {
                         setState(() {
                           _initScale = _scaleFactor * details.scale;
+                          print(details);
                         });
                       },
                       // The pointers are no longer in contact with the screen
-                      onScaleEnd: (details) {
-                        setState(() {
-                          _scaleFactor = 1;
-                        });
-                      },
+                      // onScaleEnd: (details) {
+                      //   setState(() {
+                      //     _scaleFactor = 1;
+                      //   });
+                      // },
                       child: Transform(
                         alignment: FractionalOffset.center,
                         transform: Matrix4.diagonal3(
@@ -143,6 +152,35 @@ class ShapePainter extends CustomPainter {
     // Creating a circle with center of the circle, circle radius = size.with*0.8
     canvas.drawCircle(center, size.width * 0.08, circle);
 
+    // //Hexagon
+    // Paint hex = Paint()
+    //   ..color = Colors.yellow
+    //   ..style = PaintingStyle.fill
+    //   ..strokeWidth = 1;
+    // //create path to form the Hexagon
+    // Path hexPath = Path();
+    // hexPath.moveTo(size.width * 0.7, size.height * 0.2);
+    // hexPath.lineTo(size.width * 0.8, size.height * 0.2);
+    // hexPath.lineTo(size.width * 0.85, size.height * 0.25);
+    // hexPath.lineTo(size.width * 0.8, size.height * 0.3);
+    // hexPath.lineTo(size.width * 0.7, size.height * 0.3);
+    // hexPath.lineTo(size.width * 0.65, size.height * 0.25);
+    // hexPath.lineTo(size.width * 0.7, size.height * 0.2);
+    // hexPath.close();
+    // hexPath.close();
+    // canvas.drawPath(hexPath, hex);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+//hexagon
+class Hexagon extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
     //Hexagon
     Paint hex = Paint()
       ..color = Colors.yellow
