@@ -39,14 +39,17 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                   })),
               child: Stack(
                 children: <Widget>[
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width,
-                  //   height: MediaQuery.of(context).size.height,
-                  //   child: CustomPaint(
-                  //     painter: OxyCoordinate(),
-                  //     child: Container(),
-                  //   ),
-                  // ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: CustomPaint(
+                      painter: OxyCoordinate(),
+                      child: CustomPaint(
+                        painter: Hexagon(),
+                        child: Container(),
+                      ),
+                    ),
+                  ),
                   // SizedBox(
                   //   width: MediaQuery.of(context).size.width,
                   //   height: MediaQuery.of(context).size.height,
