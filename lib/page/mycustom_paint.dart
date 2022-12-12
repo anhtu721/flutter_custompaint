@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:vector_math/vector_math_64.dart' show Vector3;
@@ -12,6 +15,7 @@ class MyCustomPaint extends StatefulWidget {
 class _MyCustomPaintState extends State<MyCustomPaint> {
   double _initScale = 1;
   double _scaleFactor = 1;
+  double _rotation = 1;
 
   double _topValue = 0;
   double _leftValue = 0;
@@ -23,7 +27,7 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
         centerTitle: true,
       ),
       body: Stack(
-        children: [
+        children: <Widget>[
           Positioned(
             top: _topValue,
             left: _leftValue,
@@ -35,6 +39,14 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                   })),
               child: Stack(
                 children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: CustomPaint(
+                      painter: OxyCoordinate(),
+                      child: Container(),
+                    ),
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -56,15 +68,17 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                       onScaleUpdate: (details) {
                         setState(() {
                           _initScale = _scaleFactor * details.scale;
-                          print(details);
+                          // _scaleFactor = _initScale * details.scale;
+                          // _rotation = details.rotation.abs() * (180 / pi);
+                          // print(details);
                         });
                       },
                       // The pointers are no longer in contact with the screen
-                      // onScaleEnd: (details) {
-                      //   setState(() {
-                      //     _scaleFactor = 1;
-                      //   });
-                      // },
+                      onScaleEnd: (details) {
+                        setState(() {
+                          _scaleFactor = 1;
+                        });
+                      },
                       child: Transform(
                         alignment: FractionalOffset.center,
                         transform: Matrix4.diagonal3(
@@ -72,9 +86,17 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
-                          child: CustomPaint(
-                            painter: ShapePainter(),
-                            child: Container(),
+                          child: Stack(
+                            children: <Widget>[
+                              CustomPaint(
+                                painter: ShapePainter(),
+                                child: Container(),
+                              ),
+                              CustomPaint(
+                                painter: PointPainter(),
+                                child: Container(),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -91,7 +113,7 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
 }
 
 //custom paint
-class ShapePainter extends CustomPainter {
+class OxyCoordinate extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Oxy coordinate system
@@ -131,15 +153,60 @@ class ShapePainter extends CustomPainter {
     canvas.drawLine(dPoint, ePoint, paintArow);
     canvas.drawLine(ePoint, fPoint, paintArow);
     canvas.drawLine(fPoint, dPoint, paintArow);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class PointPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paintPoint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 5;
+    //list of points
+    final points = [
+      Offset(size.width / 2, size.height / 2 - size.height * 0.05),
+      Offset(size.width / 2, size.height / 2 - size.height * 0.1),
+      Offset(size.width / 2, size.height / 2 - size.height * 0.15),
+      Offset(size.width / 2, size.height / 2 + size.height * 0.05),
+      Offset(size.width / 2, size.height / 2 + size.height * 0.1),
+      Offset(size.width / 2, size.height / 2 + size.height * 0.15),
+      Offset(size.width / 2 + size.height * 0.05, size.height / 2),
+      Offset(size.width / 2 + size.height * 0.1, size.height / 2),
+      Offset(size.width / 2 + size.height * 0.15, size.height / 2),
+      Offset(size.width / 2 - size.height * 0.05, size.height / 2),
+      Offset(size.width / 2 - size.height * 0.1, size.height / 2),
+      Offset(size.width / 2 - size.height * 0.15, size.height / 2),
+    ];
+    //draw points on canvas
+    canvas.drawPoints(PointMode.points, points, paintPoint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class ShapePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
     //Rectangle
-    final double widthRec = size.width * 0.3; // width
+    final double widthRec = size.width * 0.4; // width
     final double heightRec = 2 * widthRec / 3; //height
     //setting the paint for Rectangle
     final Paint rec = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.fill;
     //Creating a rectangle with size and width
-    canvas.drawRect(Rect.fromLTRB(25, 30, widthRec, heightRec), rec);
+    canvas.drawRect(
+        Rect.fromLTRB(
+            size.width * 0.15, size.height * 0.3, widthRec, heightRec),
+        rec);
 
     //Circle
 
@@ -151,24 +218,6 @@ class ShapePainter extends CustomPainter {
     Offset center = Offset(size.width * 0.8, size.height / 2 * 1.2);
     // Creating a circle with center of the circle, circle radius = size.with*0.8
     canvas.drawCircle(center, size.width * 0.08, circle);
-
-    // //Hexagon
-    // Paint hex = Paint()
-    //   ..color = Colors.yellow
-    //   ..style = PaintingStyle.fill
-    //   ..strokeWidth = 1;
-    // //create path to form the Hexagon
-    // Path hexPath = Path();
-    // hexPath.moveTo(size.width * 0.7, size.height * 0.2);
-    // hexPath.lineTo(size.width * 0.8, size.height * 0.2);
-    // hexPath.lineTo(size.width * 0.85, size.height * 0.25);
-    // hexPath.lineTo(size.width * 0.8, size.height * 0.3);
-    // hexPath.lineTo(size.width * 0.7, size.height * 0.3);
-    // hexPath.lineTo(size.width * 0.65, size.height * 0.25);
-    // hexPath.lineTo(size.width * 0.7, size.height * 0.2);
-    // hexPath.close();
-    // hexPath.close();
-    // canvas.drawPath(hexPath, hex);
   }
 
   @override
