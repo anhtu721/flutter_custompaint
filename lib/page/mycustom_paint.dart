@@ -133,27 +133,27 @@ class OxyCoordinate extends CustomPainter {
     //y-axis
     canvas.drawLine(topPoint, bottomPoint, paint);
 
-    var paintArow = Paint()
-      ..color = Colors.teal
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1;
+    // var paintArow = Paint()
+    //   ..color = Colors.teal
+    //   ..style = PaintingStyle.fill
+    //   ..strokeWidth = 1;
 
-    Path pathArrow1 = Path();
-    pathArrow1.moveTo(size.width / 2, size.height);
-    pathArrow1.lineTo(size.width / 2 * 0.98, size.height * 0.98);
-    pathArrow1.lineTo(size.width / 2 * 1.02, size.height * 0.98);
-    pathArrow1.lineTo(size.width / 2, size.height);
-    pathArrow1.close();
+    // Path pathArrow1 = Path();
+    // pathArrow1.moveTo(size.width / 2, size.height);
+    // pathArrow1.lineTo(size.width / 2 * 0.98, size.height * 0.98);
+    // pathArrow1.lineTo(size.width / 2 * 1.02, size.height * 0.98);
+    // pathArrow1.lineTo(size.width / 2, size.height);
+    // pathArrow1.close();
 
-    canvas.drawPath(pathArrow1, paintArow);
-    Path pathArrow2 = Path();
-    pathArrow2.moveTo(size.width, size.height / 2);
-    pathArrow2.lineTo(size.width * 0.98, size.height / 2 * 1.02);
-    pathArrow2.lineTo(size.width * 0.98, size.height / 2 * 0.98);
-    pathArrow2.lineTo(size.width, size.height / 2);
-    pathArrow2.close();
+    // canvas.drawPath(pathArrow1, paintArow);
+    // Path pathArrow2 = Path();
+    // pathArrow2.moveTo(size.width, size.height / 2);
+    // pathArrow2.lineTo(size.width * 0.98, size.height / 2 * 1.02);
+    // pathArrow2.lineTo(size.width * 0.98, size.height / 2 * 0.98);
+    // pathArrow2.lineTo(size.width, size.height / 2);
+    // pathArrow2.close();
 
-    canvas.drawPath(pathArrow2, paintArow);
+    // canvas.drawPath(pathArrow2, paintArow);
   }
 
   @override
