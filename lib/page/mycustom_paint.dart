@@ -43,77 +43,55 @@ class _MyCustomPaintState extends State<MyCustomPaint> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     child: CustomPaint(
-                      painter: OxyCoordinate(),
-                      child: CustomPaint(
-                        painter: Hexagon(),
-                        child: Container(),
-                      ),
+                      painter: Hexagon(),
+                      child: Container(),
                     ),
                   ),
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width,
-                  //   height: MediaQuery.of(context).size.height,
-                  //   child: CustomPaint(
-                  //     painter: Hexagon(),
-                  //     child: Container(),
-                  //   ),
-                  // ),
-                  Stack(
-                    children: <Widget>[
-                      SizedBox(
+                  GestureDetector(
+                    //The pointers in contact with the screen have established a focal point and initial scale of 1.0
+                    onScaleStart: (details) {
+                      setState(() {
+                        _initScale = _scaleFactor;
+                      });
+                    },
+                    // The pointers in contact with the screen have indicated a new scale.
+                    onScaleUpdate: (details) {
+                      setState(() {
+                        _initScale = _scaleFactor * details.scale;
+                      });
+                    },
+                    // The pointers are no longer in contact with the screen
+                    onScaleEnd: (details) {
+                      setState(() {
+                        _scaleFactor = 1;
+                      });
+                    },
+
+                    child: Transform(
+                      alignment: FractionalOffset.center,
+                      transform: Matrix4.diagonal3(
+                          Vector3(_initScale, _initScale, _initScale)),
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
-                        child: CustomPaint(
-                          painter: Hexagon(),
-                          child: Container(),
-                        ),
-                      ),
-                      GestureDetector(
-                        //The pointers in contact with the screen have established a focal point and initial scale of 1.0
-                        onScaleStart: (details) {
-                          setState(() {
-                            _initScale = _scaleFactor;
-                          });
-                        },
-                        // The pointers in contact with the screen have indicated a new scale.
-                        onScaleUpdate: (details) {
-                          setState(() {
-                            _initScale = _scaleFactor * details.scale;
-                          });
-                        },
-                        // The pointers are no longer in contact with the screen
-                        onScaleEnd: (details) {
-                          setState(() {
-                            _scaleFactor = 1;
-                          });
-                        },
-                        child: Transform(
-                          alignment: FractionalOffset.center,
-                          transform: Matrix4.diagonal3(
-                              Vector3(_initScale, _initScale, _initScale)),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            child: Stack(
-                              children: <Widget>[
-                                CustomPaint(
-                                  painter: ShapePainter(),
-                                  child: Container(),
-                                ),
-                                CustomPaint(
-                                  painter: PointPainter(),
-                                  child: Container(),
-                                ),
-                                CustomPaint(
-                                  painter: OxyCoordinate(),
-                                  child: Container(),
-                                ),
-                              ],
+                        child: Stack(
+                          children: <Widget>[
+                            CustomPaint(
+                              painter: ShapePainter(),
+                              child: Container(),
                             ),
-                          ),
+                            CustomPaint(
+                              painter: PointPainter(),
+                              child: Container(),
+                            ),
+                            CustomPaint(
+                              painter: OxyCoordinate(),
+                              child: Container(),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
@@ -135,13 +113,13 @@ class OxyCoordinate extends CustomPainter {
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
     // Fistpoint x-axis
-    Offset leftPoint = Offset(0, size.height / 2);
+    Offset leftPoint = Offset(-10000, size.height / 2);
     // endpoint x-axis
-    Offset rightPoint = Offset(size.width, size.height / 2);
+    Offset rightPoint = Offset(10000, size.height / 2);
     // firstpoint y-axis
-    Offset topPoint = Offset(size.width / 2, 0);
+    Offset topPoint = Offset(size.width / 2, -10000);
     // endpoint y-axis
-    Offset bottomPoint = Offset(size.width / 2, size.height);
+    Offset bottomPoint = Offset(size.width / 2, 10000);
     //arrow
     Offset aPoint = Offset(size.width, size.height / 2);
     Offset bPoint = Offset(size.width * 0.99, size.height / 2 * 1.01);
